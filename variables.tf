@@ -40,3 +40,8 @@ variable "install_image_updater" {
   default = true
   type    = bool
 }
+
+variable "argocd_namespace" {
+  default = "argocd"
+  type    = string
+}
