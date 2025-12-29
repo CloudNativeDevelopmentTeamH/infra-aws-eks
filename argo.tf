@@ -31,6 +31,10 @@ resource "helm_release" "argocd" {
       applicationset = { enabled = true }
     })
   ]
+
+  depends_on = [
+    aws_eks_access_policy_association.current_user_admin,
+  ]
 }
 
 # Seed
@@ -73,7 +77,10 @@ resource "kubernetes_manifest" "root_app" {
     }
   }
 
-  depends_on = [helm_release.argocd]
+  depends_on = [
+    helm_release.argocd,
+    aws_eks_access_policy_association.current_user_admin,
+  ]
 }
 
 # ArgoCD Image Updater
@@ -97,5 +104,8 @@ resource "helm_release" "argocd_image_updater" {
     })
   ]
 
-  depends_on = [helm_release.argocd]
+  depends_on = [
+    helm_release.argocd,
+    aws_eks_access_policy_association.current_user_admin,
+  ]
 }
