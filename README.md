@@ -26,4 +26,10 @@ chmod +x install-opentofu.sh
 rm -f install-opentofu.sh
 ```
 
-## 
+## Create Cluster
+
+```sh
+tofu init
+tofu plan
+tofu apply
+```
