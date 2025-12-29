@@ -8,6 +8,7 @@ variable "cluster_name" {
   type    = string
 }
 
+/*
 # ArgoCD
 variable "argo_repo_url" {
   default = "https://github.com/CloudNativeDevelopmentTeamH/infra-k8s.git"
@@ -39,4 +40,4 @@ variable "argo_image_updater_chart_version" {
 variable "install_image_updater" {
   default = true
   type    = bool
-}
+} */

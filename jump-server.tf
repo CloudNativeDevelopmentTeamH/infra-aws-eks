@@ -50,13 +50,27 @@ resource "aws_iam_role" "jump_server_role" {
   })
 }
 
-resource "aws_iam_role_policy_attachment" "jump_server_eks_policy" {
-  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
-  role       = aws_iam_role.jump_server_role.name
+resource "aws_iam_policy" "jump_server_eks_access" {
+  name        = "${var.cluster_name}-jump-server-eks-access"
+  description = "Policy for jump server to describe EKS clusters"
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Action = [
+          "eks:DescribeCluster",
+          "eks:ListClusters"
+        ]
+        Resource = "*"
+      }
+    ]
+  })
 }
 
-resource "aws_iam_role_policy_attachment" "jump_server_eks_describe" {
-  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"
+resource "aws_iam_role_policy_attachment" "jump_server_eks_access" {
+  policy_arn = aws_iam_policy.jump_server_eks_access.arn
   role       = aws_iam_role.jump_server_role.name
 }
 
