@@ -21,6 +21,7 @@ variable "argo_repo_revision" {
 
 variable "argo_root_path" {
   description = "app-of-apps folder"
+  default     = "argocd/apps"
   type        = string
 }
 
