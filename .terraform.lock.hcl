@@ -6,6 +6,7 @@ provider "registry.opentofu.org/hashicorp/aws" {
   constraints = "~> 6.0"
   hashes = [
     "h1:X149B7rTjUk4taiclJkc+ikda5/lxSJ3uPI97Acwf7M=",
+    "h1:syxqCHfXWpeUQ3TmHD+G+eC03ZO9Y0/pAvQSzRKLBeA=",
     "zh:102963b1c55b839aeb58788fb823749db02ab96674cf25de720b00473a6c839c",
     "zh:46be161beffbb9ea2c9c135dafca0dd634358a9bafc90748cecddf619460c2b6",
     "zh:4ee96a9dc860f6b391f2bac07b522c5386ffe75395955686dd56f356e4dd2f36",
@@ -23,6 +24,7 @@ provider "registry.opentofu.org/hashicorp/helm" {
   constraints = "~> 3.0"
   hashes = [
     "h1:1TvLWj0VSBgoIQy2qo0yvDTvb/7tk1t/7iQRZ9cv0CA=",
+    "h1:8SOQHxpTUK0rYBsCoxqrvDRc75KZl9hBt1m7QLrs+QM=",
     "zh:09b38905e234c2e0b185332819614224660050b7e4b25e9e858b593ab01adafe",
     "zh:09fed1b19b8bcded169fb76304e06c5b1216d5ceba92948c23384f34ddbf1fac",
     "zh:2e0af220f3fe79048d82f6de91752ba9929c215819d3de4f82ccb473bcd9e5df",
@@ -37,9 +39,10 @@ provider "registry.opentofu.org/hashicorp/helm" {
 
 provider "registry.opentofu.org/hashicorp/kubernetes" {
   version     = "2.38.0"
-  constraints = "~> 2.0"
+  constraints = "~> 2.25"
   hashes = [
     "h1:HGkB9bCmUqMRcR5/bAUOSqPBsx6DAIEnbT1fZ8vzI78=",
+    "h1:nY7J9jFXcsRINog0KYagiWZw1GVYF9D2JmtIB7Wnrao=",
     "zh:1096b41c4e5b2ee6c1980916fb9a8579bc1892071396f7a9432be058aabf3cbc",
     "zh:2959fde9ae3d1deb5e317df0d7b02ea4977951ee6b9c4beb083c148ca8f3681c",
     "zh:5082f98fcb3389c73339365f7df39fc6912bf2bd1a46d5f97778f441a67fd337",
@@ -56,6 +59,7 @@ provider "registry.opentofu.org/hashicorp/local" {
   version = "2.6.1"
   hashes = [
     "h1:Dd5MP04TnE9qaFD8BQkJYkluiJCOsL7fwUTJx26KIP0=",
+    "h1:QH/Ay/SWVoOLgvFacjcvQcrw2WfEktZHxCcIQG0A9/w=",
     "zh:0416d7bf0b459a995cf48f202af7b7ffa252def7d23386fc05b34f67347a22ba",
     "zh:24743d559026b59610eb3d9fa9ec7fbeb06399c0ef01272e46fe5c313eb5c6ff",
     "zh:2561cdfbc90090fee7f844a5cb5cbed8472ce264f5d505acb18326650a5b563f",
@@ -71,6 +75,7 @@ provider "registry.opentofu.org/hashicorp/local" {
 provider "registry.opentofu.org/hashicorp/tls" {
   version = "4.1.0"
   hashes = [
+    "h1:MByilNnYPdjPTlb/qcNgR0DErA6550hI6wd8OJYB1vw=",
     "h1:RBhHxjVu41XdAnM4WxxGTz2nYaccHNLalqx4031L8rE=",
     "zh:187a99f0d236fd92da224e2f026c4ca8f1dcbf2b5cddc8e6896801bacfab0d73",
     "zh:61a32a01cc46f382014dcf7aff5bcac61fe97bd69d3ccb51c801e9437ecdb9ce",
