@@ -99,44 +99,40 @@ resource "aws_instance" "jump_server" {
   iam_instance_profile        = aws_iam_instance_profile.jump_server_profile.name
   key_name                    = aws_key_pair.jump_server_key.key_name
 
-  user_data = <<-EOF
-              #!/bin/bash
-              set -e
-              
-              # Update system
-              yum update -y
-              
-              # Install dependencies
-              yum install -y curl unzip
-              
-              # Install kubectl
-              curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-              chmod +x kubectl
-              mv kubectl /usr/local/bin/
-              
-              # Install helm
-              curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
-              
-              # Configure kubectl for ec2-user
-              su - ec2-user -c "aws eks update-kubeconfig --region ${var.aws_region} --name ${var.cluster_name}"
-              
-              # Verify kubectl is working
-              su - ec2-user -c "kubectl get nodes" > /tmp/kubectl-test.log 2>&1 || true
-              
-              # Create welcome message
-              cat > /etc/motd <<'MOTD'
-              ================================
-              EKS Jump Server Ready!
-              ================================
-              kubectl is already configured!
-              
-              Try these commands:
-              kubectl get nodes
-              kubectl cluster-info
-              kubectl get pods --all-namespaces
-              ================================
-              MOTD
-              EOF
+    user_data = <<EOF
+#!/bin/bash
+
+# Update system
+yum update -y
+
+# Install kubectl
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+chmod +x kubectl
+mv kubectl /usr/local/bin/
+
+# Install helm
+curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+
+# Configure kubectl for ec2-user
+su - ec2-user -c "aws eks update-kubeconfig --region ${var.aws_region} --name ${var.cluster_name}"
+
+# Verify kubectl is working
+su - ec2-user -c "kubectl get nodes" > /tmp/kubectl-test.log 2>&1 || true
+
+# Create welcome message
+cat > /etc/motd <<'MOTD'
+================================
+EKS Jump Server Ready!
+================================
+kubectl is already configured!
+
+Try these commands:
+kubectl get nodes
+kubectl cluster-info
+kubectl get pods --all-namespaces
+================================
+MOTD
+EOF
 
   depends_on = [
     aws_eks_cluster.cluster,
