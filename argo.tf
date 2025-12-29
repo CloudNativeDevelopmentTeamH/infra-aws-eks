@@ -1,5 +1,11 @@
+variable "enable_argocd" {
+  type    = bool
+}
+
 # Namespaces
 resource "kubernetes_namespace" "argocd" {
+  count = var.enable_argocd ? 1 : 0
+
   metadata {
     name = var.argocd_namespace
   }
@@ -7,8 +13,10 @@ resource "kubernetes_namespace" "argocd" {
 
 # Deploy ArgoCD via Helm
 resource "helm_release" "argocd" {
-  name       = "argocd"
-  namespace  = kubernetes_namespace.argocd.metadata[0].name
+  count = var.enable_argocd ? 1 : 0
+
+  name      = "argocd"
+  namespace = kubernetes_namespace.argocd[0].metadata[0].name
 
   repository = "https://argoproj.github.io/argo-helm"
   chart      = "argo-cd"
@@ -16,6 +24,10 @@ resource "helm_release" "argocd" {
 
   values = [
     yamlencode({
+      crds = {
+        install = true
+      }
+
       configs = {
         params = {
           "server.insecure" = "true"
@@ -26,8 +38,8 @@ resource "helm_release" "argocd" {
         ingress = { enabled = false }
       }
 
-      dex = { enabled = false }
-      notifications = { enabled = false }
+      dex            = { enabled = false }
+      notifications  = { enabled = false }
       applicationset = { enabled = true }
     })
   ]
@@ -39,6 +51,8 @@ resource "helm_release" "argocd" {
 
 # Seed
 resource "kubernetes_manifest" "root_app" {
+  count = var.enable_argocd ? 1 : 0
+
   manifest = {
     apiVersion = "argoproj.io/v1alpha1"
     kind       = "Application"
@@ -85,8 +99,10 @@ resource "kubernetes_manifest" "root_app" {
 
 # ArgoCD Image Updater
 resource "helm_release" "argocd_image_updater" {
+  count = var.enable_argocd ? 1 : 0
+
   name      = "argocd-image-updater"
-  namespace = kubernetes_namespace.argocd.metadata[0].name
+  namespace = kubernetes_namespace.argocd[0].metadata[0].name
 
   repository = "https://argoproj.github.io/argo-helm"
   chart      = "argocd-image-updater"
