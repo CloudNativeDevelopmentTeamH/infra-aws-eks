@@ -33,3 +33,10 @@ tofu init
 tofu plan
 tofu apply
 ```
+
+## Update Cluster
+```sh
+tofu init -upgrade # if providers changes have been made
+tofu plan
+tofu apply
+```
