@@ -1,3 +1,22 @@
+# Generate SSH key pair
+resource "tls_private_key" "jump_server_key" {
+  algorithm = "RSA"
+  rsa_bits  = 4096
+}
+
+# Create AWS key pair from generated public key
+resource "aws_key_pair" "jump_server_key" {
+  key_name   = "${var.cluster_name}-jump-server-key"
+  public_key = tls_private_key.jump_server_key.public_key_openssh
+}
+
+resource "local_file" "private_key" {
+  content         = tls_private_key.jump_server_key.private_key_pem
+  filename        = "${path.module}/${var.cluster_name}-jump-server-key.pem"
+  file_permission = "0400"
+}
+
+# Image data for Amazon Linux 2023
 data "aws_ami" "amazon_linux" {
   most_recent = true
   owners      = ["amazon"]
@@ -13,6 +32,7 @@ data "aws_ami" "amazon_linux" {
   }
 }
 
+// Jump Server IAM Role and Instance Profile
 resource "aws_iam_role" "jump_server_role" {
   name = "${var.cluster_name}-jump-server-role"
 
@@ -77,9 +97,7 @@ resource "aws_instance" "jump_server" {
   vpc_security_group_ids      = [aws_security_group.jump_server_sg.id]
   associate_public_ip_address = true
   iam_instance_profile        = aws_iam_instance_profile.jump_server_profile.name
-  
-  # Add your key pair name here
-  # key_name = "your-key-pair-name"
+  key_name                    = aws_key_pair.jump_server_key.key_name
 
   user_data = <<-EOF
               #!/bin/bash
