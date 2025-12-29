@@ -35,8 +35,15 @@ tofu apply
 ```
 
 ## Update Cluster
+
 ```sh
 tofu init -upgrade # if providers changes have been made
 tofu plan
 tofu apply
 ```
+
+## References
+
+- https://github.com/opentofu/terraform-provider-aws/tree/v6.27.0/examples/eks-getting-started
+- https://search.opentofu.org/provider/hashicorp/aws/latest/docs/resources/eks_cluster
+- https://developer.hashicorp.com/terraform/tutorials/kubernetes/eks
