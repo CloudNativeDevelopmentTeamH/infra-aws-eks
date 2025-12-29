@@ -33,7 +33,7 @@ variable "argo_chart_version" {
 
 variable "argo_image_updater_chart_version" {
   description = "ArgoCD Image Updater Helm Chart Version"
-  default = ""
+  default     = ""
   type        = string
 }
 
