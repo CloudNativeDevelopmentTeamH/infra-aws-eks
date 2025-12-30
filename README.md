@@ -8,6 +8,8 @@ unzip awscliv2.zip
 sudo ./aws/install
 ```
 
+---
+
 ## Install OpenTofu
 ```sh
 # Download the installer script:
@@ -26,6 +28,8 @@ chmod +x install-opentofu.sh
 rm -f install-opentofu.sh
 ```
 
+---
+
 ## Create Cluster
 
 ```sh
@@ -33,6 +37,8 @@ tofu init
 tofu plan
 tofu apply
 ```
+
+---
 
 ## Update Cluster
 
@@ -42,10 +48,15 @@ tofu plan -var-file values.tfvars
 tofu apply -var-file values.tfvars
 ```
 
+---
+
 ## Set local kubeconfig
+
 ```sh
 aws eks update-kubeconfig --name cnd-prod-eks --region eu-central-1
 ```
+
+---
 
 ## Deploy & Update Argo
 
@@ -54,6 +65,29 @@ First update Cluster
 tofu init -upgrade # if providers changes have been made
 tofu plan -var="enable_argocd=true" -var-file values.tfvars
 tofu apply -var="enable_argocd=true" -var-file values.tfvars
+```
+
+---
+
+## Connect to jump server
+
+```sh
+# Get IP
+tofu output jump_server_public_ip
+
+# Connect via SSH
+ssh -i cnd-prod-eks-jump-server-key.pem ec2-user@<IP-goes-here>
+```
+
+---
+
+## Get ArgoCD secret
+
+```sh
+kubectl -n argocd get secret argocd-initial-admin-secret \
+  -o jsonpath="{.data.password}" \
+| base64 -d \
+| awk '{ printf "\033[31m%s\033[0m\n", $0 }'
 ```
 
 ## References
