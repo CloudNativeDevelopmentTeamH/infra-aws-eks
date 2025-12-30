@@ -31,7 +31,6 @@ rm -f install-opentofu.sh
 ```sh
 tofu init
 tofu plan
-    var.enable_argocd: false
 tofu apply
 ```
 
@@ -40,7 +39,6 @@ tofu apply
 ```sh
 tofu init -upgrade # if providers changes have been made
 tofu plan
-    var.enable_argocd: false
 tofu apply
 ```
 
@@ -49,9 +47,8 @@ tofu apply
 First update Cluster
 ```sh
 tofu init -upgrade # if providers changes have been made
-tofu plan
-    var.enable_argocd: true
-tofu apply
+tofu plan -var="enable_argocd=true"
+tofu apply -var="enable_argocd=true"
 ```
 
 ## References

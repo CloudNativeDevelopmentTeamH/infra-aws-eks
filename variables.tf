@@ -46,3 +46,8 @@ variable "argocd_namespace" {
   default = "argocd"
   type    = string
 }
+
+variable "enable_argocd" {
+  type    = bool
+  default = false
+}

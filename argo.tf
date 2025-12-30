@@ -1,7 +1,3 @@
-variable "enable_argocd" {
-  type    = bool
-}
-
 # Namespaces
 resource "kubernetes_namespace" "argocd" {
   count = var.enable_argocd ? 1 : 0
