@@ -42,6 +42,11 @@ tofu plan -var-file values.tfvars
 tofu apply -var-file values.tfvars
 ```
 
+## Set local kubeconfig
+```sh
+aws eks update-kubeconfig --name cnd-prod-eks --region eu-central-1
+```
+
 ## Deploy & Update Argo
 
 First update Cluster
