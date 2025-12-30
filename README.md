@@ -75,8 +75,11 @@ tofu apply -var="enable_argocd=true" -var-file values.tfvars
 # Get IP
 tofu output jump_server_public_ip
 
-# Connect via SSH
+# Connect via SSH (without port forwarding)
 ssh -i cnd-prod-eks-jump-server-key.pem ec2-user@<IP-goes-here>
+
+# Connect via SSH (with port fowarding to localhost:8888)
+ssh -i cnd-prod-eks-jump-server-key.pem -L 8888:localhost:8888 ec2-user@<IP-goes-here>
 ```
 
 ---
