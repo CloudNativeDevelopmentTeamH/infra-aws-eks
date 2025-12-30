@@ -1,15 +1,20 @@
-# User EKS Access
-data "aws_caller_identity" "current" {}
+locals {
+  admin_principal_arns = toset(var.iam_user_arns)
+}
 
 resource "aws_eks_access_entry" "current_user_access" {
+  for_each = local.admin_principal_arns
+
   cluster_name  = aws_eks_cluster.cluster.name
-  principal_arn = data.aws_caller_identity.current.arn
+  principal_arn = each.value
   type          = "STANDARD"
 }
 
 resource "aws_eks_access_policy_association" "current_user_admin" {
+  for_each = local.admin_principal_arns
+
   cluster_name  = aws_eks_cluster.cluster.name
-  principal_arn = data.aws_caller_identity.current.arn
+  principal_arn = each.value
   policy_arn    = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
 
   access_scope {

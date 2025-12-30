@@ -8,6 +8,12 @@ variable "cluster_name" {
   type    = string
 }
 
+variable "iam_user_arns" {
+  description = "List of IAM user ARNs to be added to the EKS admin role"
+  type        = list(string)
+  default     = []
+}
+
 # ArgoCD
 variable "argo_repo_url" {
   default = "https://github.com/CloudNativeDevelopmentTeamH/infra-k8s.git"

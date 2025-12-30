@@ -38,8 +38,8 @@ tofu apply
 
 ```sh
 tofu init -upgrade # if providers changes have been made
-tofu plan
-tofu apply
+tofu plan -var-file .\values.tfvars
+tofu apply -var-file .\values.tfvars
 ```
 
 ## Deploy & Update Argo
@@ -47,8 +47,8 @@ tofu apply
 First update Cluster
 ```sh
 tofu init -upgrade # if providers changes have been made
-tofu plan -var="enable_argocd=true"
-tofu apply -var="enable_argocd=true"
+tofu plan -var="enable_argocd=true" -var-file .\values.tfvars
+tofu apply -var="enable_argocd=true" -var-file .\values.tfvars
 ```
 
 ## References
