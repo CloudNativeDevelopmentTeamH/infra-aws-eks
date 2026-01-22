@@ -12,6 +12,11 @@ terraform {
       source  = "hashicorp/kubernetes"
       version = "~> 2.25"
     }
+
+    tls = {
+      source = "opentofu/tls"
+      version = "4.1.0"
+    }
   }
   required_version = ">= 1.6.0"
 }
