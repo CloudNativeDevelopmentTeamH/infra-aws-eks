@@ -52,3 +52,15 @@ resource "aws_eks_addon" "ebs_csi_driver" {
   addon_version            = "v1.29.1-eksbuild.1"
   service_account_role_arn = aws_iam_role.ebs_csi_driver_role.arn
 }
+
+# Storage Class
+resource "kubernetes_storage_class_v1" "ebs_sc" {
+  metadata {
+    name = "ebs-sc"
+  }
+
+  storage_provisioner = "ebs.csi.aws.com"
+  volume_binding_mode = "WaitForFirstConsumer"
+  
+  depends_on = [aws_eks_addon.ebs_csi_driver]
+}
