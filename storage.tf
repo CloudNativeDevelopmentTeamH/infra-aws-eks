@@ -1,16 +1,4 @@
-# Get thumbprint for OIDC provider
-data "tls_certificate" "eks" {
-  url = aws_eks_cluster.cluster.identity[0].oidc[0].issuer
-}
-
-# Create OIDC provider for EKS
-resource "aws_iam_openid_connect_provider" "eks" {
-  url = aws_eks_cluster.cluster.identity[0].oidc[0].issuer
-  client_id_list = ["sts.amazonaws.com"]
-  thumbprint_list = [data.tls_certificate.eks.certificates[0].sha1_fingerprint]
-}
-
-# Create IAM role for EBS CSI Driver
+# Assume Role for Service Account (IRSA)
 data "aws_iam_policy_document" "ebs_csi_driver_assume_role" {
   statement {
     effect   = "Allow"
@@ -35,11 +23,13 @@ data "aws_iam_policy_document" "ebs_csi_driver_assume_role" {
   }
 }
 
+# IAM Role for Service Account (IRSA)
 resource "aws_iam_role" "ebs_csi_driver_role" {
   name               = "ebs-csi-driver-role"
   assume_role_policy = data.aws_iam_policy_document.ebs_csi_driver_assume_role.json
 }
 
+# Attach AmazonEBSCSIDriverPolicy to the role
 resource "aws_iam_role_policy_attachment" "ebs_csi_driver_role_attachment" {
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"
   role       = aws_iam_role.ebs_csi_driver_role.name
