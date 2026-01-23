@@ -18,7 +18,7 @@ data "aws_iam_policy_document" "ecr_assume_role" {
     condition {
       test     = "StringEquals"
       variable = "${replace(aws_iam_openid_connect_provider.eks.url, "https://", "")}:sub"
-      values   = ["system:serviceaccount:kube-system:ebs-csi-controller-sa"]
+      values   = ["system:serviceaccount:auth:eks-service-account"]
     }
   }
 }
@@ -61,7 +61,7 @@ resource "aws_iam_role_policy_attachment" "ecr_access_attachment" {
 resource "kubernetes_service_account_v1" "eks_service_account" {
   metadata {
     name      = "eks-service-account"
-    namespace = "default"
+    namespace = "auth"
     annotations = {
       "eks.amazonaws.com/role-arn" = aws_iam_role.ecr_access_role.arn
     }
