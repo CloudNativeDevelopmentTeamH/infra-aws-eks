@@ -12,3 +12,8 @@ output "private_key_path" {
   value       = "${path.module}/${var.cluster_name}-jump-server-key.pem"
   description = "Path to the private key file"
 }
+
+output "ecr_access_role_arn" {
+  value       = aws_iam_role.ecr_access_role.arn
+  description = "IAM role ARN for ECR access (use this in Helm values.yaml)"
+}

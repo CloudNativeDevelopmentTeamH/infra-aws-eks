@@ -57,13 +57,5 @@ resource "aws_iam_role_policy_attachment" "ecr_access_attachment" {
   role       = aws_iam_role.ecr_access_role.name
 }
 
-# Kubernetes Service Account
-resource "kubernetes_service_account_v1" "eks_service_account" {
-  metadata {
-    name      = "eks-service-account"
-    namespace = "auth"
-    annotations = {
-      "eks.amazonaws.com/role-arn" = aws_iam_role.ecr_access_role.arn
-    }
-  }
-}
+# Note: Service account is now managed by Helm chart in auth/helm/templates/serviceaccount.yaml
+# Use the output 'ecr_access_role_arn' in your Helm values.yaml
