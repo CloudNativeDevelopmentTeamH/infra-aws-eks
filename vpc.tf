@@ -18,6 +18,7 @@ resource "aws_subnet" "subnet" {
   tags = tomap({
     "Name"                                      = "${var.cluster_name}-subnet-${count.index}",
     "kubernetes.io/cluster/${var.cluster_name}" = "shared",
+    "kubernetes.io/role/elb"                    = "1",
   })
 }
 

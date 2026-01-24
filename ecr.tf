@@ -1,4 +1,4 @@
-# Assume Role for Service Account (IRSA)
+# Assume IAM Role for Service Account (IRSA)
 data "aws_iam_policy_document" "ecr_assume_role" {
   statement {
     effect  = "Allow"
@@ -23,7 +23,7 @@ data "aws_iam_policy_document" "ecr_assume_role" {
   }
 }
 
-# IAM Role for Service Account (IRSA)
+# IAM Role for ECR Service Account (IRSA)
 resource "aws_iam_role" "ecr_access_role" {
   name               = "eks-auth-ecr-access-role"
   assume_role_policy = data.aws_iam_policy_document.ecr_assume_role.json

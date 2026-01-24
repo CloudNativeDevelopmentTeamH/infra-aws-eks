@@ -1,4 +1,4 @@
-# Assume Role for Service Account (IRSA)
+# Assume IAM Role for Service Account (IRSA)
 data "aws_iam_policy_document" "ebs_csi_driver_assume_role" {
   statement {
     effect   = "Allow"
@@ -23,7 +23,7 @@ data "aws_iam_policy_document" "ebs_csi_driver_assume_role" {
   }
 }
 
-# IAM Role for Service Account (IRSA)
+# IAM Role for EBS Service Account (IRSA)
 resource "aws_iam_role" "ebs_csi_driver_role" {
   name               = "ebs-csi-driver-role"
   assume_role_policy = data.aws_iam_policy_document.ebs_csi_driver_assume_role.json
