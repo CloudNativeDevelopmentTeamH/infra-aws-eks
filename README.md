@@ -154,6 +154,13 @@ kubectl -n argocd get secret argocd-initial-admin-secret \
 ```
 
 
+## Destroy Cluster (☠️ DESTRUCTIVE ☠️)
+
+```sh
+tofu destroy -var-file value.tfvars
+```
+
+
 ## References
 
 - https://github.com/opentofu/terraform-provider-aws/tree/v6.27.0/examples/eks-getting-started
